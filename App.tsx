@@ -1,13 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, TouchableOpacity, TouchableHighlight, Text, TextInput, Alert, Button } from 'react-native';
+import * as D from './src/data';
+import Person from './src/screens/Person';
+
+
+const people = D.makeArray(100).map(D.createRandomPerson)
+
+const person = D.createRandomPerson();
 
 export default function App() {
+
+  const children = people.map((person) => (
+    <Person key={person.id} person={person} />
+  ))
+
+  const onPress = () => Alert.alert('pressed.', 'message')
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Button title="Home" onPress={onPress} />
+      <TouchableOpacity onPress={onPress}>
+        <Text>Opacity</Text>
+      </TouchableOpacity>
+      <TouchableHighlight onPress={onPress}>
+        <Text>Highlight</Text>
+      </TouchableHighlight>
+      <TextInput
+        placeholder="enter your name"
+        onChangeText={(text: string): void => console.log(text)}
+        onFocus={() => console.log('onFocus')}
+        onBlur={() => console.log('onBlur')}
+        onEndEditing={() => console.log('onEndEditing')}
+      />
+    </SafeAreaView>
   );
 }
 
